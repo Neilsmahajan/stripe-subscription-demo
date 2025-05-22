@@ -6,9 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:dev": "./prisma-migrate.sh migrate dev",
+    "prisma:generate": "./prisma-migrate.sh generate",
+    "prisma:studio": "./prisma-migrate.sh studio"
   },
   "dependencies": {
+    "@auth/prisma-adapter": "^2.9.1",
+    "@prisma/client": "^6.8.2",
     "next": "15.3.2",
     "next-auth": "^5.0.0-beta.28",
     "react": "^19.0.0",
@@ -22,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "prisma": "^6.8.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
