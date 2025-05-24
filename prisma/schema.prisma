@@ -18,6 +18,12 @@ model User {
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  
+  // Stripe subscription data
+  stripeCustomerId String?
+  subscriptionId   String?
+  planActive       Boolean @default(false)
+  planExpires      DateTime?
+ 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

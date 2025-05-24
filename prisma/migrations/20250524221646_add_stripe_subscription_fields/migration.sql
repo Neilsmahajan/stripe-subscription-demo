@@ -5,6 +5,10 @@ CREATE TABLE "User" (
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "stripeCustomerId" TEXT,
+    "subscriptionId" TEXT,
+    "planActive" BOOLEAN NOT NULL DEFAULT false,
+    "planExpires" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
