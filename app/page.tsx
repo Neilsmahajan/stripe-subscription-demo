@@ -1,3 +1,8 @@
+import CheckoutButton from "./checkout-button";
 export default function Home() {
-  return <main></main>;
+  return (
+    <main>
+      <CheckoutButton />
+    </main>
+  );
 }
