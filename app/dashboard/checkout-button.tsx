@@ -23,14 +23,12 @@ export default function CheckoutButton() {
     });
 
     if (!userResponse.ok) {
-      redirect("/api/auth/signin");
-      return;
+      return redirect("/api/auth/signin");
     }
 
     const { user } = await userResponse.json();
     if (!user) {
-      redirect("/api/auth/signin");
-      return;
+      return redirect("/api/auth/signin");
     }
     const stripe = await loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,

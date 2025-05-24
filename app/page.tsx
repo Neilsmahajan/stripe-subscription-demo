@@ -1,8 +1,4 @@
-import CheckoutButton from "./checkout-button";
+import GoToDashboardButton from "./go-to-dashboard-button";
 export default function Home() {
-  return (
-    <main>
-      <CheckoutButton />
-    </main>
-  );
+  return <GoToDashboardButton />;
 }
