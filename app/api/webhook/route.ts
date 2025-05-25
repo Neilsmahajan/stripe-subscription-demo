@@ -54,47 +54,10 @@ export async function POST(request: NextRequest) {
 
         console.log("Retrieved subscription:", stripeSubscription);
 
-        // Calculate the plan expires date based on billing cycle anchor and interval
-        // since current_period_end might not be available
-        const billingCycleAnchor = stripeSubscription.billing_cycle_anchor;
-        const planInterval =
-          (stripeSubscription as unknown as { plan: { interval: string } }).plan
-            ?.interval || "month";
-        const intervalCount =
-          (
-            stripeSubscription as unknown as {
-              plan: { interval_count: number };
-            }
-          ).plan?.interval_count || 1;
-
-        console.log("Billing cycle anchor:", billingCycleAnchor);
-        console.log("Plan interval:", planInterval, "count:", intervalCount);
-
-        const anchorDate = new Date(billingCycleAnchor * 1000);
-
-        // Calculate next billing date based on interval
-        if (planInterval === "month") {
-          anchorDate.setMonth(anchorDate.getMonth() + intervalCount);
-        } else if (planInterval === "year") {
-          anchorDate.setFullYear(anchorDate.getFullYear() + intervalCount);
-        } else if (planInterval === "week") {
-          anchorDate.setDate(anchorDate.getDate() + 7 * intervalCount);
-        } else if (planInterval === "day") {
-          anchorDate.setDate(anchorDate.getDate() + intervalCount);
-        }
-
-        const planExpires = anchorDate;
-
-        // Validate the date
-        if (isNaN(planExpires.getTime())) {
-          console.error("Invalid date created for planExpires:", planExpires);
-          return NextResponse.json(
-            { error: "Invalid subscription expiration date" },
-            { status: 500 },
-          );
-        }
-
-        console.log("Plan expires date:", planExpires);
+        // Set planExpires to null initially - it will be updated by subscription.updated event
+        console.log(
+          "Setting planExpires to null for initial checkout completion",
+        );
 
         // Update the user with Stripe subscription data
         await prisma.user.update({
@@ -103,7 +66,7 @@ export async function POST(request: NextRequest) {
             stripeCustomerId: session.customer as string,
             subscriptionId: stripeSubscription.id,
             planActive: stripeSubscription.status === "active",
-            planExpires: planExpires,
+            planExpires: null, // Set to null initially, will be updated by subscription.updated event
           },
         });
 
